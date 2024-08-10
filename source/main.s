@@ -6,6 +6,7 @@
 	.extern printf
 	.extern gfxExit
 	.extern consoleInit
+    .extern consoleGetDefault
 	.extern hidKeysDown
 	.extern hidScanInput
 	.extern aptMainLoop
@@ -21,6 +22,8 @@ main:
     mov r1, #0
     mov r0, #0
     bl consoleInit
+    mov r3, #4
+    str r3, [r0, #58]
 
     ldr r0, =str
     bl printf
@@ -46,7 +49,6 @@ main:
     vcvt.f64.u32 d14, s6 @ 1
     vcvt.f64.u32 d15, s7 @ 2
     vcvt.f64.u32 d13, s8 @ 4
-
 
     mov r0, #0
     bl loop
@@ -89,9 +91,9 @@ piCalc:
     vmul.f64 d3, d1, d4 @ (n) * (n + 1)
     vmul.f64 d3, d3, d5 @ (n) * (n + 1) * (n + 2)
 
-    vdiv.f64 d3, d13, d3 @ 4 * ( (n) * (n + 1) * (n + 2) )
+    vdiv.f64 d3, d13, d3 @ 4 / ( (n) * (n + 1) * (n + 2) )
 
-    vmla.f64 d0, d3, d2  @ PI + sign * ( 4 * ( (n) * (n + 1) * (n + 2) ) )
+    vmla.f64 d0, d3, d2  @ PI + sign * ( 4 / ( (n) * (n + 1) * (n + 2) ) )
 
     vneg.f64 d2, d2
     vadd.f64 d1, d1, d15
