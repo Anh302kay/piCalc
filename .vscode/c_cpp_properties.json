@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+
+                "E:\\msys64\\opt\\devkitpro\\libctru\\include\\**",
+                "E:\\msys64\\opt\\devkitpro\\portlibs\\3ds\\include\\**",
+                "E:\\msys64\\opt\\devkitpro\\devkitARM\\arm-none-eabi\\include\\**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "__3DS__"
+            ]
+        }
+    ],
+    "version": 4
+}

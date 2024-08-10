@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "time.h": "c",
+        "citro2d.h": "c",
+        "citro3d.h": "c",
+        "types.h": "c"
+    }
+}
