@@ -1,5 +1,6 @@
 .arch armv6k
 .fpu vfp
+#include "pi.inc"
 .section .text
 	.global main
 	.extern gfxInitDefault
@@ -29,12 +30,23 @@ main:
     bl printf
     ldr r5, =#gspWaitForVBlank+1 @ load label with an offset of 1 for thumb mode
 
+@setup bottom screen
+    mov r0, #1
+    mov r1, #0
+    bl gfxSetDoubleBuffering
+    mov r2, #0
+    mov r3, #0
+    bl gfxGetFramebuffer
+    ldr r1, =#pi_sideways
+    ldr r2, =#230400
+    bl memcpy
+
+@prep vfp registers
     mov r0, #1
     mov r1, #2
     mov r2, #3
     mov r3, #4
 
-@prep vfp registers
     vmov.f32 s0, r2 
     vmov.f32 s2, r1
     vmov.f32 s4, r0
@@ -96,7 +108,7 @@ piCalc:
     vmla.f64 d0, d3, d2  @ PI + sign * ( 4 / ( (n) * (n + 1) * (n + 2) ) )
 
     vneg.f64 d2, d2
-    vadd.f64 d1, d1, d15
+    vadd.f64 d1, d1, d15 @ d1 + 2
 
     pop {pc}
 
@@ -108,6 +120,9 @@ gspWaitForVBlank:
     mov r1, #1
     bl gspWaitForEvent @ wait for vblank
     bx r4 @ return
+
+drawBottomScreen:
+    
 
 .arm
 .balign 4
