@@ -23,6 +23,8 @@ main:
     mov r1, #0
     mov r0, #0
     bl consoleInit
+    mov r6, r0
+    mov r7, #0 @ technically optimisation by using registers instead of storing into stack but i was lazy to test out the stack
     mov r3, #4
     str r3, [r0, #58]
 
@@ -84,6 +86,21 @@ loop:
 @input
 	bl hidScanInput
 	bl hidKeysDown
+
+    ldr r1, =#268435472
+    ands r1, r0
+    addne r7, r7, #1
+    cmp r7, #24
+    moveq r7, #23
+    strne r7, [r6, #58]
+
+
+    ldr r1, =#536870944
+    ands r1, r0
+    subnes r7, r7, #1
+    movmi r7, #0
+    strne r7, [r6, #58]
+
     mov r1, #8 @ start key
     cmp r1, r0
     bne loop
@@ -121,12 +138,9 @@ gspWaitForVBlank:
     bl gspWaitForEvent @ wait for vblank
     bx r4 @ return
 
-drawBottomScreen:
-    
-
 .arm
 .balign 4
 .align 2
 .section .data
 
-str: .asciz "Hello Assembly! %.30f\n"
+str: .asciz "Hello Assembly! %.13f\n"
