@@ -87,6 +87,7 @@ loop:
 	bl hidScanInput
 	bl hidKeysDown
 
+@right key press
     ldr r1, =#268435472
     ands r1, r0
     addne r7, r7, #1
@@ -94,7 +95,7 @@ loop:
     moveq r7, #23
     strne r7, [r6, #58]
 
-
+@left key press
     ldr r1, =#536870944
     ands r1, r0
     subnes r7, r7, #1
